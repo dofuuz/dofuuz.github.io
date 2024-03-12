@@ -14,12 +14,12 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Kind of blog
-#email: your-email@example.com
+
 description: >- # this means to ignore newlines until "baseurl:"
   Things to store.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://dofuuz.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-#twitter_username: jekyllrb
+
 github_username: dofuuz
 
 # Build settings
@@ -35,6 +35,9 @@ minima:
   date_format: "%Y-%m-%d"
   social_links:
     - { platform: github,  user_url: "https://github.com/dofuuz" }
+
+author:
+  name: KEUM Myungchul
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
