@@ -3,9 +3,9 @@ layout: post
 title:  "Test post"
 date:   2024-03-06 23:44:00 +0900
 categories: test color
-minima:
-  skin: dark
 ---
+<link rel="stylesheet" href="/assets/css/dark.css">
+
 TL;DR:
 Using color appearance model, we can deal with with human color perception scientifically.  
 With this, I made standard-looking terminal color scheme having uniform visibility across all colors.  
