@@ -13,10 +13,10 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Kind of blog
+title: Depths of Fields
 
-description: >- # this means to ignore newlines until "baseurl:"
-  Things to store.
+# description: >- # this means to ignore newlines until "baseurl:"
+#   Things to store.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://dofuuz.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -31,9 +31,10 @@ plugins:
   - jekyll-remote-theme
 
 minima:
-  skin: dark
+  skin: auto
   date_format: "%Y-%m-%d"
   social_links:
+    - { platform: rss,  user_url: "/feed.xml" }
     - { platform: github,  user_url: "https://github.com/dofuuz" }
 
 author:

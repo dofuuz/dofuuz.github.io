@@ -2,12 +2,14 @@
 layout: post
 title:  "Test post"
 date:   2024-03-06 23:44:00 +0900
-categories: jekyll update
+categories: test color
+minima:
+  skin: dark
 ---
 TL;DR:
 Using color appearance model, we can deal with with human color perception scientifically.  
 With this, I made standard-looking terminal color scheme having uniform visibility across all colors.  
-(Preview, Downloads)
+([Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html), [Downloads](https://github.com/dofuuz/dimidium))
 
 ![compare image](/assets/202403/compare-animated-gif-maker.gif)
 
