@@ -4,8 +4,8 @@ title: About
 permalink: /about/
 ---
 
-## KEUM Myungchul
+KEUM Myungchul
 
 $mail@example.com$
 
-https://github.com/dofuuz
+<https://github.com/dofuuz>

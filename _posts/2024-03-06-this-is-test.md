@@ -6,17 +6,19 @@ categories: test color
 ---
 <link rel="stylesheet" href="/assets/css/dark.css">
 <style>
-img + em { display: block; text-align: center; }
+img + em { display: block; }
 </style>
 
 
 (Still writing...)
 
 
-TL;DR:  
+### TL;DR:  
 Using color appearance model, we can deal with with human color perception scientifically.  
 With this, I made standard-looking terminal color scheme having uniform visibility across all colors.  
 ([Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html), [Downloads](https://github.com/dofuuz/dimidium))
+
+[한국어](https://c.innori.com/155)
 
 
 ## Overview
@@ -29,10 +31,10 @@ Modern terminals can use 24-bit(16,777,216) colors, but many applications still 
 These default terminal color settings usually have <span style="color: #0000ff; background: #000000;">blue that's too dark</span>. <span style="color: #00ff00; background: #000000;">Green is too vibrant</span> and hurts my eyes. 🥶
 
 So if I look it up,  
-[https://gogh-co.github.io/Gogh/]  
-[https://github.com/AlexAkulov/putty-color-themes]  
-[https://iterm2colorschemes.com/]  
-There are tons of 16-color combinations being shared, each made to their own taste and senses.
+<https://gogh-co.github.io/Gogh/>  
+<https://github.com/AlexAkulov/putty-color-themes>  
+<https://iterm2colorschemes.com/>  
+there are tons of 16-color combinations being shared, each made to their own taste and senses.
 
 But none of them fullfill my eye. Common problems are:
 
@@ -57,9 +59,9 @@ So we can get new standard color scheme that standard-looking and well visible.
 
 Let's start by increasing the lightness of the blue color.
 
-Even with maximum B value, <span style="color: #0000ff; background: #000000;">◼(0,0,255)</span> it's still too dark.
+Even with maximum B value, <span style="color: #0000ff; background: #000000;">■(0,0,255)</span> it's still too dark.
 
-If we increase R, G to raise the lightness, <span style="color: #6464ff; background: #000000;">◼(100,100,255)</span> does get brighter, but a reddish tint starts to appear.
+If we increase R, G to raise the lightness, <span style="color: #6464ff; background: #000000;">■(100,100,255)</span> does get brighter, but a reddish tint starts to appear.
 
 We're in trouble from the start. 🤦
 
@@ -77,13 +79,13 @@ This is where we need a color appearance model (CAM). Those interested in the la
 Constructing the color plane using RGB results in uneven lightness distribution (left). But using a color appearance model allows us to obtain a color plane with uniform lightness distribution (right).
 
 Let's look at blue again using the Oklch color appearance model.
-![Color planes](/assets/202403/img1.png)
+![Color planes](/assets/202403/pimg2.png)
+*Left: Without CAM, Right: With Oklch*
 
+Compared to the top #0000ff, while the left palette shows a reddish tint, the right palette using Oklch shows more appropriate blue color.
 
-Compared to the top #0000ff, while the left palette shows a reddish tint when increasing lightness, the right palette using Oklch shows a more appropriate blue color.
-
-Back to the First Step: Keep Hue the Same and Just Increase Lightness
-Using an Oklch color picker tool, if we increase the lightness of blue to <span style="color: #487fff; background: #000000;">◼(72,127,255)</span>, the reddish tint is gone and it finally looks like a bright blue.
+### Back to the First Step: Keep Hue the Same and Just Increase Lightness
+Using an Oklch color picker tool, if we increase the lightness of blue to <span style="color: #487fff; background: #000000;">■(72,127,255)</span>, the reddish tint is gone and it finally looks like a bright blue.
 
 Using a color appearance model allows us to handle colors in a way that matches human perception.
 
@@ -93,14 +95,17 @@ The goal is to maintain the hue while reducing extreme differences in lightness.
 ### CAM16-UCS
 The color appearance model I'll use is CAM16-UCS (Color Appearance Model 2016 - Uniform Color Space).
 
-![CAM16-UCS color gamut](/assets/202403/cam16-ucs-3d.png)
+![CAM16-UCS color gamut](/assets/202403/cam16-ucs-3d.png){:width="600"}
 *Image source: [ColorAide Documentation](https://facelessuser.github.io/coloraide/colors/cam16_ucs/)*
 
-It represents color using 3 values: J (lightness), a (redness-greenness), b (yellowness-blueness).
+It represents color using 3 values: J (lightness), a (red-green), b (yellow-blue).
 
-(Lightness is denoted as L* or J to distinguish it from luminance L.)
+(Lightness is denoted as L* or J to distinguish it from luminance L)
 
 By converting the J, a, b Cartesian coordinates (x, y, z) to cylindrical coordinates (r, Φ, z), we get the 3 components of the color we want to use:
+
+![HSL color cylinder](/assets/202403/HSL_color_solid_cylinder_saturation_gray.png){:width="400"}
+*Image source: [Wikipedia - HSL and HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)*
 
 J: Lightness  
 C: Chroma  
@@ -162,8 +167,6 @@ The lightness difference is not completely eliminated. Doing so would reduce the
 When we plot the hues on a plane, the angular spacing is uneven.
 Yellow in particular is skewed towards green.
 
-Before adjustment: Uneven hue (angle) spacing
-
 Let's spread them out equally at 60° intervals to maximize the difference between colors.
 
 ```python
@@ -175,13 +178,16 @@ h[10:16] = (30, 150, 90, 270, 330, 210)
 h[10:16] += 3
 ```
 
-After adjustment: Even hue (angle) spacing
+![Before lightness adjust](/assets/202403/fig40.png) | ![After lightness adjust](/assets/202403/fig41.png)
+:---: | :---:
+Before: Uneven hue (angle) spacing | After: Even hue (angle) spacing
+
 
 ### Chroma
 
 The adjusted colors include out-of-gamut values like RGB (-32, 266, 128) that cannot be displayed on SDR displays. Think of it as over/under-exposure clipping when adjusting brightness in photography.
 
-Before adjustment: Out of color gamut
+
 
 First, let's Thanos the chroma difference.
 Normalize chroma
@@ -210,10 +216,14 @@ for desaturate in np.arange(1, 0.1, -0.001):
         break
 ```
 
-After adjustment: Within color gamut
+![Before lightness adjust](/assets/202403/fig41.png) | ![After lightness adjust](/assets/202403/fig42.png)
+:---: | :---:
+Before: Out of sRGB gamut | After: Within sRGB gamut
+
 
 ### Result
-Here is the result:
+Here is the result:  
+![Result color scheme](/assets/202403/fig13.png)
 
 It's close to the standard while ensuring all colors are evenly visible.
 
@@ -223,9 +233,12 @@ The reduced lightness difference makes red and blue more visible, and the oversa
 Some subjective adjustments to improve readability and color distinction:
 
 ### Background Color
+<p style="color: #c8c5c4; background: #000000;">
 A pure (0,0,0) black background is known to be bad for readability.
-
+</p>
+<p style="color: #c8c5c4; background: #141414;">
 I changed the background to a near-black gray (20,20,20).
+</p>
 
 ### Enhancing Color Distinction
 
@@ -252,18 +265,25 @@ After adjustment: Normal/bright hues more distinct
 
 [Browser Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
+
 ## Code
+
 The Python code used for color generation and visualization is available here:
-https://colab.research.google.com/drive/1BZ26_QMkFRFsBzrRvCLGu10bw2inz947?usp=sharing
+
+<https://colab.research.google.com/drive/1BZ26_QMkFRFsBzrRvCLGu10bw2inz947?usp=sharing>
+
 
 ## Download Settings 🛠️⬇️
-You can download the color scheme settings for terminals here:  
-https://github.com/dofuuz/dimidium
+
+You can download the color scheme settings for terminals here.
+
+<https://github.com/dofuuz/dimidium>
+
 
 ## Try Color Appearance Models
+
 You don't need to know Python. You can experiment with OKLCH color picking at these sites:  
-https://oklch.com/  
-https://bottosson.github.io/misc/colorpicker
 
+<https://oklch.com/>  
 
-(Still writing...)
+<https://bottosson.github.io/misc/colorpicker>
