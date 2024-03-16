@@ -7,11 +7,7 @@ categories: test color
 <link rel="stylesheet" href="/assets/css/dark.css">
 <style>
 img + em { display: block; text-align: center; }
-img.centered {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+img.centered { display: block; margin-left: auto; margin-right: auto; }
 </style>
 
 
@@ -100,7 +96,7 @@ The goal is to maintain the hue while reducing extreme differences in lightness.
 ### CAM16-UCS
 The color appearance model I'll use is CAM16-UCS (Color Appearance Model 2016 - Uniform Color Space).
 
-![CAM16-UCS color gamut](/assets/202403/cam16-ucs-3d.png){:.centered :width="600"}
+![CAM16-UCS color gamut](/assets/202403/cam16-ucs-3d.png){:.centered}{:width="600"}
 *Image source: [ColorAide Documentation](https://facelessuser.github.io/coloraide/colors/cam16_ucs/)*
 
 It represents color using 3 values: J (lightness), a (red-green), b (yellow-blue).
@@ -109,7 +105,7 @@ It represents color using 3 values: J (lightness), a (red-green), b (yellow-blue
 
 By converting the J, a, b Cartesian coordinates (x, y, z) to cylindrical coordinates (r, Φ, z), we get the 3 components of the color we want to use:
 
-![HSL color cylinder](/assets/202403/HSL_color_solid_cylinder_saturation_gray.png){:width="400"}
+![HSL color cylinder](/assets/202403/HSL_color_solid_cylinder_saturation_gray.png){:.centered}{:width="400"}
 *Image source: [Wikipedia - HSL and HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)*
 
 J: Lightness  
@@ -271,6 +267,7 @@ After adjustment: Normal/bright hues more distinct
 *Dimidium in terminal*
 
 ![compare image](/assets/202403/compare-animated-gif-maker.gif){:.centered}
+*Comparision with traditional color scheme*
 
 [Browser Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
