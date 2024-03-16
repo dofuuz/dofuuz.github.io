@@ -14,38 +14,34 @@ img.centered { display: block; margin-left: auto; margin-right: auto; }
 (Still writing...)
 
 
-### TL;DR:  
-Using color appearance model, we can deal with with human color perception scientifically.  
-With this, I made standard-looking terminal color scheme having uniform visibility across all colors.  
+### TL;DR:
+
+Using Color Appearance Model(CAM), we can deal with with human color perception scientifically.  
+With CAM, I made standard-looking terminal color scheme having uniform visibility across all colors.  
 ([Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html), [Downloads](https://github.com/dofuuz/dimidium))
 
 [한국어](https://c.innori.com/155)
 
 
-## Overview
+## Problem of the 16-colors
 
-Modern terminals can use 24-bit(16,777,216) colors, but many applications still use ANSI 16 color scheme: black, red, green, yellow, blue, magenta, cyan, white, and their bright varients.
+Modern terminals can use 24-bit colors, but many applications still use ANSI 16 color scheme: K, R, G, Y, B, M, C, W, and their bright varients.
 
 ![Traditional 16 color scheme](/assets/202403/fig09.png){:.centered}
 *Traditional 16 color scheme*
 
 These default terminal color settings usually have <span style="color: #0000ff; background: #000000;">blue that's too dark</span>. <span style="color: #00ff00; background: #000000;">Green is too vibrant</span> and hurts my eyes. 🥶
 
-So if I look it up,  
 <https://gogh-co.github.io/Gogh/>  
 <https://github.com/AlexAkulov/putty-color-themes>  
 <https://iterm2colorschemes.com/>  
-there are tons of 16-color combinations being shared, each made to their own taste and senses.
+There are tons of alternatives being shared, each made to their own taste and senses.
 
 But none of them fullfill my eye. Common problems are:
 
 - Name and color not matching (Red is magenta, blue is purple... etc)
 - Some colors are buried in the background and hard to see
 - 'Bright' colors are not defined, or messed up
-
-To solve these problems... I decided to throw a small rock into the ocean.
-
-In this post, I'll introduce color appearance model, then, adjust the 16 default terminal colors using the CAM.
 
 
 ## New Standard Terminal color scheme 🌈
@@ -54,15 +50,18 @@ If it doesn't exist, let's create it.
 
 > Let's reduce excessive brightness, chroma difference of traditional terminal color scheme.
 
-So we can get new standard color scheme that standard-looking and well visible.
+So we can get new color scheme that standard-looking and well visible.
 
-### First step: Brighten up without touching hue
+
+### First step: Brighten up without changing hue
 
 Let's start by increasing the lightness of the blue color.
 
+![0,0,255 Blue](/assets/202403/cpimge1.jpg)  
 Even with maximum B value, <span style="color: #0000ff; background: #000000;">■(0,0,255)</span> it's still too dark.
 
-If we increase R, G to raise the lightness, <span style="color: #6464ff; background: #000000;">■(100,100,255)</span> does get brighter, but a reddish tint starts to appear.
+![100,100,255 Blue](/assets/202403/cpimge2.jpg)  
+If we increase R, G to raise the lightness, <span style="color: #6464ff; background: #000000;">■(100,100,255)</span> does get brighter, but reddish tint starts to appear.
 
 We're in trouble from the start. 🤦
 
@@ -71,30 +70,30 @@ We're in trouble from the start. 🤦
 
 As you saw above, human vision system does not respond linearly to RGB value. Hue varies even if same amount of R, G value changed.
 
-As you saw above, human vision does not respond linearly to RGB values. Even if you adjust R and G equally, the perceived color shifts.
-
-This is where we need a color appearance model (CAM). Those interested in the latest CSS standards may have heard of Oklab, Oklch - Oklab is also a type of color appearance model.
+This is where we need a CAM. If you're interested in the latest CSS standards, you might have heard of Oklab and Oklch, which are also CAMs.
 
 ![Color planes](/assets/202403/img1.png)
 
-Constructing the color plane using RGB results in uneven lightness distribution (left). But using a color appearance model allows us to obtain a color plane with uniform lightness distribution (right).
+Constructing the color plane using RGB results in uneven lightness (left). But using a CAM allows us to obtain a color plane with uniform lightness (right).
 
-Let's look at blue again using the Oklch color appearance model.
+Let's look at blue again using the Oklch.
 ![Color planes](/assets/202403/pimg2.png)
 *Left: Without CAM, Right: With Oklch*
 
 Compared to the top #0000ff, while the left palette shows a reddish tint, the right palette using Oklch shows more appropriate blue color.
 
-### Back to the First Step: Keep Hue the Same and Just Increase Lightness
-Using an Oklch color picker tool, if we increase the lightness of blue to <span style="color: #487fff; background: #000000;">■(72,127,255)</span>, the reddish tint is gone and it finally looks like a bright blue.
+### Again, First Step: Brighten up without changing hue
 
-Using a color appearance model allows us to handle colors in a way that matches human perception.
 
-So from now on, I will tweak the basic terminal color scheme using a color appearance model.
+we increase the lightness of blue to <span style="color: #487fff; background: #000000;">■(72,127,255)</span>, the reddish tint is gone. It finally looks like a bright blue.
+
+Using a CAM allows us to handle colors in a way that matches human perception.
+
+So from now on, I will tweak the basic terminal color scheme using a CAM.
 The goal is to maintain the hue while reducing extreme differences in lightness.
 
 ### CAM16-UCS
-The color appearance model I'll use is CAM16-UCS (Color Appearance Model 2016 - Uniform Color Space).
+The CAM I'll use is CAM16-UCS (Color Appearance Model 2016 - Uniform Color Space).
 
 ![CAM16-UCS color gamut](/assets/202403/cam16-ucs-3d.png){:.centered}{:width="600"}
 *Image source: [ColorAide Documentation](https://facelessuser.github.io/coloraide/colors/cam16_ucs/)*
@@ -112,16 +111,12 @@ J: Lightness
 C: Chroma  
 h: Hue
 
-(The diagrams below are for understanding purposes and may differ from the actual color appearance model and colors.)
+(The diagrams below are for understanding purposes and may differ from the actual CAM and colors.)
 
 ## Color Adjustment 🖌️
 Let's proceed with the adjustments based on [xterm's default settings](https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit).
 
 I'll use the Python colour-science package for color conversion.
-
-```sh
-$ pip install colour-science
-```
 
 The RGB color is converted to XYZ color space, then to CAM16-UCS (Jab → JCh).
 
@@ -186,14 +181,12 @@ Before: Uneven hue (angle) spacing | After: Even hue (angle) spacing
 
 ### Chroma
 
-The adjusted colors include out-of-gamut values like RGB (-32, 266, 128) that cannot be displayed on SDR displays. Think of it as over/under-exposure clipping when adjusting brightness in photography.
+The adjusted colors include out-of-gamut values like RGB(-32,266,128) that cannot be displayed on SDR displays. It's something like over/under-exposure clipping in photography.
 
-
-
-First, let's Thanos the chroma difference.
-Normalize chroma
+To fix this, first, let's Thanos the chroma difference.
 
 ```python
+# Normalize chroma
 c_min = np.min(c[2:8])
 c[2:8] = (c[2:8] + c_min) / 2
 
