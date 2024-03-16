@@ -6,7 +6,12 @@ categories: test color
 ---
 <link rel="stylesheet" href="/assets/css/dark.css">
 <style>
-img + em { display: block; }
+img + em { display: block; text-align: center; }
+img.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>
 
 
@@ -25,7 +30,7 @@ With this, I made standard-looking terminal color scheme having uniform visibili
 
 Modern terminals can use 24-bit(16,777,216) colors, but many applications still use ANSI 16 color scheme: black, red, green, yellow, blue, magenta, cyan, white, and their bright varients.
 
-![Traditional 16 color scheme](/assets/202403/fig09.png)
+![Traditional 16 color scheme](/assets/202403/fig09.png){:.centered}
 *Traditional 16 color scheme*
 
 These default terminal color settings usually have <span style="color: #0000ff; background: #000000;">blue that's too dark</span>. <span style="color: #00ff00; background: #000000;">Green is too vibrant</span> and hurts my eyes. 🥶
@@ -95,7 +100,7 @@ The goal is to maintain the hue while reducing extreme differences in lightness.
 ### CAM16-UCS
 The color appearance model I'll use is CAM16-UCS (Color Appearance Model 2016 - Uniform Color Space).
 
-![CAM16-UCS color gamut](/assets/202403/cam16-ucs-3d.png){:width="600"}
+![CAM16-UCS color gamut](/assets/202403/cam16-ucs-3d.png){:.centered :width="600"}
 *Image source: [ColorAide Documentation](https://facelessuser.github.io/coloraide/colors/cam16_ucs/)*
 
 It represents color using 3 values: J (lightness), a (red-green), b (yellow-blue).
@@ -135,7 +140,7 @@ color_jch = colour.models.Jab_to_JCh(jab)
 
 Then we separate J, C, h.
 
-```
+```python
 j = color_jch[..., 0]
 c = color_jch[..., 1]
 h = color_jch[..., 2]
@@ -259,9 +264,13 @@ After adjustment: Normal/bright hues more distinct
 
 ### Final Result ✨
 
-![Dimidium color scheme](/assets/202403/fig14.png)
+![Dimidium color scheme](/assets/202403/fig14.png){:.centered}
+*Dimidium color scheme*
 
-![compare image](/assets/202403/compare-animated-gif-maker.gif)
+![Dimidium in terminal](/assets/202403/timg4.png){:.centered}
+*Dimidium in terminal*
+
+![compare image](/assets/202403/compare-animated-gif-maker.gif){:.centered}
 
 [Browser Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
