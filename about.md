@@ -15,6 +15,6 @@ permalink: /about/
 
 KEUM Myungchul
 
-$dofu\!\mathbin{@}\!nate_\cdot com$
+$dofu\mathbin{@}nate_\cdot com$
 
 <https://github.com/dofuuz>
