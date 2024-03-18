@@ -29,6 +29,7 @@ With CAM, I made a standard-looking terminal color scheme with uniform visibilit
 
 [한국어](https://c.innori.com/155)
 
+![Dimidium](/assets/202403/github-social-preview2.png)
 
 ## Problem of the 16-colors
 
@@ -74,7 +75,7 @@ We're in trouble from the start. 🤦
 
 As you saw above, the human vision system does not respond linearly to the RGB value. Hue varies even if the same amount of R, G value changed.
 
-This is where we need a CAM. If you're interested in the latest CSS standards, you might have heard of Oklab and Oklch, which are also CAMs.
+This is where we need a [CAM](https://en.wikipedia.org/wiki/Color_appearance_model). If you're interested in the latest CSS standards, you might have heard of [Oklab](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab) and [Oklch](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch), which are also CAMs.
 
 ![Color planes](/assets/202403/img1.png){:.centered}
 *Left: Without CAM, Right: With Oklch*
@@ -151,6 +152,8 @@ Let's start by reducing the gap between the too-dark blue and too-bright green.
 
 But we won't completely eliminate the lightness difference. Let's Thanos it by half.
 
+(Note: 'Dimidium' is Latin for 'half'.)
+
 ```python
 j_mean = np.mean(j[2:8])
 j[2:8] = (j[2:8] + j_mean) / 2  # colors
@@ -191,7 +194,7 @@ Before: Uneven hue (angle) spacing | After: Even hue (angle) spacing
 
 The adjusted colors include out-of-gamut values like RGB(-32,266,128) that cannot be displayed on SDR displays. It's something like over/under-exposure clipping in photography.
 
-To fix this, first, let's Thanos the chroma difference.
+To fix this, first, let's halve the chroma difference.
 
 ```python
 # Normalize chroma
@@ -274,16 +277,19 @@ Before: Little difference between normal/bright | After: Normal/bright more dist
 ![Dimidium in terminal](/assets/202403/timg4.png){:.centered}
 *Dimidium in the terminal*
 
-🔍 [More preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
-
 ![compare image](/assets/202403/compare-animated-gif-maker.gif){:.centered}
 *Comparison with the traditional color scheme*
+
+🔍 [More preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
 
 ## Code
 
-The Python code used for color generation and visualization:  
-[Colab](https://colab.research.google.com/drive/1BZ26_QMkFRFsBzrRvCLGu10bw2inz947?usp=sharing)
+The Python code used for color generation and visualization:
+
+[Colab](https://colab.research.google.com/drive/1BZ26_QMkFRFsBzrRvCLGu10bw2inz947?usp=sharing) (May be outdated. Use code at Github to develop with.)
+
+[Github](https://github.com/dofuuz/dimidium)
 
 
 ## Download Settings 🛠️⬇️
