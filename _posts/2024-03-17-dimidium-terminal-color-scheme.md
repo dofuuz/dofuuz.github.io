@@ -21,6 +21,8 @@ code { color: #bab7b6; background-color: #141414; }
 .highlight .p { color: #ED6FE9; }
 </style>
 
+![Dimidium](/assets/202403/github-social-preview2.png)
+
 ### TL;DR:
 
 Using Color Appearance Model (CAM), we can deal with human color perception scientifically.  
@@ -28,8 +30,6 @@ With CAM, I made a standard-looking terminal color scheme with uniform visibilit
 ([Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html), [Downloads](https://github.com/dofuuz/dimidium))
 
 [한국어](https://c.innori.com/155)
-
-![Dimidium](/assets/202403/github-social-preview2.png)
 
 ## Problem of the 16-colors
 
@@ -40,9 +40,9 @@ Modern terminals can use 24-bit colors, but many applications still use the ANSI
 
 These default terminal color settings usually have <span style="color: #0000ff; background: #000000;">blue that's too dark</span>. <span style="color: #00ff00; background: #000000;">Green is too vibrant</span> and hurts my eyes. 🥶
 
-And there are [tons of](https://gogh-co.github.io/Gogh/) [color schemes](https://github.com/AlexAkulov/putty-color-themes) [being shared](https://iterm2colorschemes.com/), each made to their taste and senses.
+And there are [tons of](https://gogh-co.github.io/Gogh/) [custom color schemes](https://github.com/AlexAkulov/putty-color-themes) [being shared](https://iterm2colorschemes.com/), each made to their taste and senses.
 
-But none of them fulfill my eye. Common problems are:
+But none of them fulfill my eyes. Common problems are:
 
 - Name and color not matching (Red is magenta, blue is purple... etc)
 - Some colors are buried in the background and hard to see
@@ -75,27 +75,27 @@ We're in trouble from the start. 🤦
 
 As you saw above, the human vision system does not respond linearly to the RGB value. Hue varies even if the same amount of R, G value changed.
 
-This is where we need a [CAM](https://en.wikipedia.org/wiki/Color_appearance_model). If you're interested in the latest CSS standards, you might have heard of [Oklab](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab) and [Oklch](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch), which are also CAMs.
+This is where we need a [CAM](https://en.wikipedia.org/wiki/Color_appearance_model). If you're interested in the [latest CSS standards](https://www.w3.org/TR/css-color-4/), you might have heard of [Oklab](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab) and [Oklch](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch), which are also CAMs.
 
 ![Color planes](/assets/202403/img1.png){:.centered}
-*Left: Without CAM, Right: With Oklch*
+*Left: Without CAM / Right: With Oklch*
 
 The lightness of the color plane is uneven with HSV (left). But with CAM, it became uniform (right).
 
 Let's look at the blue again using the [Oklch color picker](https://bottosson.github.io/misc/colorpicker/#0000ff).  
 ![Color planes](/assets/202403/pimg2.png){:.centered}
-*Left: Without CAM, Right: With Oklch*
+*Left: Without CAM / Right: With Oklch*
 
-Compared to the top #0000ff, while the left palette shows a reddish tint, the right palette using Oklch shows a more appropriate blue color.
+Compared to the top <span style="color: #0000ff; background: #000000;">■ #0000ff</span>, while the left palette shows a reddish tint, the right palette using Oklch shows more appropriate blue color.
 
 
 ### Again, First Step: Brighten up without changing hue
 
 By increasing the lightness using Oklch, <span style="color: #487fff; background: #000000;">■(72,127,255)</span>, the reddish tint is gone. It finally looks like a bright blue.
 
-Using a CAM allows us to handle colors in a way that matches human perception.
+Using a CAM allows us to handle colors in a way that human perception works.
 
-So from now on, I will tweak the basic terminal color scheme using a CAM.
+So from now on, I will tweak the terminal color scheme using a CAM.
 The goal is to maintain the hue while reducing extreme differences in lightness.
 
 
@@ -108,7 +108,7 @@ The CAM I'll use is CAM16-UCS (Color Appearance Model 2016 - Uniform Color Space
 
 It represents color using 3 values: J (lightness), a (red-green), b (yellow-blue).
 
-(Lightness is denoted as L* or J to distinguish it from luminance L)
+(Conventionally, Lightness is denoted as `L*` or `J` to distinguish it from Luminance `L`)
 
 By converting the J, a, b Cartesian coordinates (x, y, z) to cylindrical coordinates (r, Φ, z), we get the 3 components of the color we want to use:
 
@@ -124,9 +124,9 @@ h: Hue
 
 ## Color Adjustment 🖌️
 
-Let's proceed with the adjustments based on [xterm's default settings](https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit).
+Base is [xterm's default color setting](https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit).
 
-I'll use the Python `colour-science` package for color conversion. (sRGB → CAM16-UCS)
+I'll use the Python [colour-science](https://www.colour-science.org) package for color conversion. (sRGB → CAM16-UCS)
 
 ```python
 import colour  # colour-science
@@ -148,9 +148,7 @@ h = color_jch[..., 2]
 
 ### Lightness
 
-Let's start by reducing the gap between the too-dark blue and too-bright green.
-
-But we won't completely eliminate the lightness difference. Let's Thanos it by half.
+Let's start by reducing the gap between the too-dark blue and too-bright green. I'll Thanos it by half.
 
 (Note: 'Dimidium' is Latin for 'half'.)
 
@@ -166,12 +164,12 @@ j[10:16] = (j[10:16] + j_mean) / 2  # bright colors
 
 ![After lightness adjust](/assets/202403/cmp-lightness1.png){:.centered}
 
-I didn't completely eliminate the lightness difference. Doing so would reduce the color distinction and exacerbate the clipping issue I'll explain later, making the result look strange.
+The lightness difference is not entirely removed. Doing so would reduce the color distinction and worsen the clipping issue I'll explain later, making the result look strange.
 
 
 ### Hue
 
-When we plot the hues on a plane, the angular spacing is uneven.
+When we plot the colors on a plane, the angular spacing (=hue difference) is uneven.
 Yellow, in particular, is skewed towards green.
 
 Let's spread them out equally at 60° intervals to maximize the difference between colors.
@@ -234,7 +232,7 @@ Here is the result:
 
 ![Preview of the result](/assets/202403/timg3.png){:.centered}
 
-It's close to the standard while ensuring all colors are evenly visible.
+It's close to the standard while ensuring all colors are well visible.
 
 The reduced lightness difference makes red and blue more visible, and the oversaturation of cyan and green is gone.
 
@@ -244,10 +242,10 @@ The reduced lightness difference makes red and blue more visible, and the oversa
 Some subjective adjustments to improve readability and color distinction:
 
 ### Background Color
-<p style="color: #c8c5c4; background: #000000;">
+<p style="color: #bab7b6; background: #000000;">
 A pure (0,0,0) black background is known to be bad for readability.
 </p>
-<p style="color: #c8c5c4; background: #141414;">
+<p style="color: #bab7b6; background: #141414;">
 I changed the background to a near-black gray (20,20,20).
 </p>
 
@@ -283,15 +281,6 @@ Before: Little difference between normal/bright | After: Normal/bright more dist
 🔍 [More preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
 
-## Code
-
-The Python code used for color generation and visualization:
-
-[Colab](https://colab.research.google.com/drive/1BZ26_QMkFRFsBzrRvCLGu10bw2inz947?usp=sharing) (May be outdated. Use code at Github to develop with.)
-
-[Github](https://github.com/dofuuz/dimidium)
-
-
 ## Download Settings 🛠️⬇️
 
 You can download the color scheme settings for terminals here.  
@@ -301,17 +290,28 @@ You can download the color scheme settings for terminals here.
 
 ## Further readings
 
-Explorer the science behind Dimidium.
-
 [Color appearance model - Wikipedia](https://en.wikipedia.org/wiki/Color_appearance_model)
+
+[Roseus colormap](https://github.com/dofuuz/roseus) - perceptually uniform colormap made by me
+
+
+### Code
+
+The Python code used for color generation and visualization:
+
+[Colab](https://colab.research.google.com/drive/1BZ26_QMkFRFsBzrRvCLGu10bw2inz947?usp=sharing) (May be outdated. Use code at Github to develop with.)
+
+[Github](https://github.com/dofuuz/dimidium)
 
 
 ### Try Color Appearance Models
 
-You don't need to know Python. You can experiment with OKLCH color picking at these sites.
+You don't need to know Python to use CAMs. You can experiment with CAMs at these sites.
 
 [OKLCH Color Picker & Converter](https://oklch.com/)
 
 [Interactive color picker comparison](https://bottosson.github.io/misc/colorpicker)
 
 [CSS HD Gradients](https://gradient.style/)
+
+[Color picker for any color space - Color.js](https://colorjs.io/apps/picker/)
