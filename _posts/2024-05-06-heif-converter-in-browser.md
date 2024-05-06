@@ -51,19 +51,19 @@ For fast offline conversion, this converter relies on the browser's HEVC decoder
 
 #### in Windows
 
-Browser  | Apple iOS | Samsung Galaxy
--------- | --------- | --------------
-Chrome   | ❌        | ✔️
-Edge¹    | ✔️        | ✔️
-Firefox  | ❌        | ❌
+Browser  | HEIF from iOS | HEIF from Galaxy
+-------- | ------------- | ----------------
+Chrome   | ❌            | ✔️
+Edge¹    | ✔️            | ✔️
+Firefox  | ❌            | ❌
 
 1. HEVC extension ([conditional free](https://apps.microsoft.com/detail/9n4wgh0z6vhq) / [paid](https://apps.microsoft.com/detail/9nmzlz57r3t7)) should be installed with.
 
 #### in macOS
 
-Browser | Apple iOS | Samsung Galaxy
-------- | --------- | --------------
-Safari  | ✔️        | ✔️
+Browser | HEIF from iOS | HEIF from Galaxy
+------- | ------------- | ----------------
+Safari  | ✔️            | ✔️
 
 
 ### Limitations
