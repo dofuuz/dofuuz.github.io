@@ -13,13 +13,13 @@ permalink: /about/
 <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 
-## Name
+### Name
 KEUM Myungchul[^1]
 
 [^1]: ALL CAPS means it's family name.
 
-## Email
+### Email
 $dofu\mathbin{@}nate_\cdot com$
 
-## GitHub
+### GitHub
 <https://github.com/dofuuz>
