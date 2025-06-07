@@ -69,6 +69,7 @@ function loadHeicWithFallback(img) {
             };
             heifDrawer.error = function(e) {
                 console.error("Failed to decode HEIC image:", e, img);
+                img.alt = `Failed to decode: ${e.message || e}`;
             };
             heifDrawer.decode(iso);
         })
