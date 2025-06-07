@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEIC Image Native Decoding Demo</title>
+    <style>
+        img {
+            max-width: 640px;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>HEIC Image Native Decoding Demo</h1>
+    <p>If your browser doesn't support HEIF, these images will be decoded by its built-in HEVC video decoder.</p>
+
+    <p><img src="img/sample-heic-file.heic" alt="A HEIC Image"></p>
+
+    <p><img src="img/dwsample-heif-640.heic" alt="Another HEIC Image"></p>
+
+    <script src="extern/mp4box.all.min.js"></script>
+    <script src="heif_videcoder.js"></script>
+    <script src="heic_img_loader.js"></script>
+</body>
+</html>
