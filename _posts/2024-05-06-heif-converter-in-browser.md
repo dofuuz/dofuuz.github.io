@@ -86,3 +86,4 @@ I couldn't completely solve the compatibility issue. I planned to register a dom
 
 I think it's still usable and useful in some circumstances.  
 　
+2025-06-10 update: The [JS HEIF decoder](https://github.com/dofuuz/heic-videcoder) has been open-sourced!

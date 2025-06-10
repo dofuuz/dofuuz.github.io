@@ -3,27 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEIC Image Native Decoding Demo</title>
+    <title>HEIC ViDecoder Demo</title>
     <style>
         img {
             max-width: 640px;
             width: 100%;
             height: auto;
         }
+        body {
+            font-family: sans-serif;
+        }
     </style>
 </head>
 <body>
-    <h1>HEIC Image Native Decoding Demo</h1>
-    <p>If your browser doesn't support HEIF, these images will be decoded by its built-in HEVC video decoder.</p>
+    <h1>HEIC ViDecoder &lt;img&gt; Display Demo</h1>
+
+    <p>Try <a href="https://heif.pages.dev/">HEIC/HEIF to JPG/PNG Converter</a> for batch conversion!</p>
+    <p><a href="https://github.com/dofuuz/heic-videcoder">Explanation, Source</a></p>
+    <p>If your browser doesn't support HEIF image, it will be processed by browser's HEVC video decoder as fallback.</p>
 
     <p><img src="sample/sample-heic-file.heic" alt="A HEIC Image"></p>
 
     <p><img src="sample/dwsample-heif-640.heif" alt="Another HEIC Image"></p>
 
-    <p>Try <a href="https://heif.pages.dev/">HEIC/HEIF Converter</a> for batch conversion!</p>
+    <p>Browser compatibility: Chrome ✔️, Edge ✔️, Safari ✔️, Firefox ❌</p>
 
     <script src="extern/mp4box.all.min.js"></script>
-    <script src="heif_videcoder.js"></script>
+    <script src="heic_videcoder.js"></script>
     <script src="heic_img_loader.js"></script>
 </body>
 </html>

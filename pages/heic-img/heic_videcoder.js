@@ -1,8 +1,11 @@
 /**
- * @file heif_videcoder.js
- * @description HEIF image decoder using browser native HEVC video decoder.
+ * @file heic_videcoder.js
+ * @description HEIC/HEIF image decoder using the browser's native HEVC video decoder.
  * @author KEUM Myungchul
  * @license MIT
+ * 
+ * HEIC ViDecoder
+ * https://github.com/dofuuz/heic-videcoder
  *
  * Copyright (c) 2024 KEUM Myungchul
  *
