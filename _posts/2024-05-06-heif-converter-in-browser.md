@@ -84,6 +84,6 @@ In some device (e.g. Apple iOS), OS/app automatically converts HEIC files to JPG
 
 I couldn't completely solve the compatibility issue. I planned to register a domain, add ads, support ICC/EXIF. But that's it. I'll wrap up at this moment and release it.
 
-I think it's still usable and useful in some circumstances.  
-　
+I think it's still usable and useful in some circumstances.
+
 2025-06-10 update: The [JS HEIF decoder](https://github.com/dofuuz/heic-videcoder) has been open-sourced!
