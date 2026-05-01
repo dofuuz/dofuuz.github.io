@@ -27,7 +27,7 @@ code { color: #bab7b6; background-color: #141414; }
 
 Using Color Appearance Model (CAM), we can deal with human color perception scientifically.  
 With CAM, I made a standard-looking terminal color scheme with uniform visibility across all colors.  
-([Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html), [Downloads](https://github.com/dofuuz/dimidium))
+([Preview](https://dofuuz.github.io/pages/tty-preview-nobold.html), [Downloads](https://github.com/dofuuz/dimidium))
 
 [한국어](https://c.innori.com/155)
 
