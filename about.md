@@ -3,15 +3,6 @@ layout: page
 title: About
 permalink: /about/
 ---
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$']]
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
 
 ### Name
 KEUM Myungchul[^1]
@@ -19,8 +10,14 @@ KEUM Myungchul[^1]
 [^1]: ALL CAPS means it's family name.
 
 ### Email
-$dofu\mathbin{@}nate_\cdot com$
+<script>let e="dofu"+"@"+"nate.com";document.write('<a href="mai'+'lto:'+e+'">'+e+'</a>');</script>
 
 ### GitHub
 <https://github.com/dofuuz>
-　
+
+
+### Open Source & Projects
+
+* **[Dimidium](https://github.com/dofuuz/dimidium)**: A standard-looking terminal color scheme crafted with CAM16.
+* **[Python-SoXR](https://github.com/dofuuz/python-soxr)**: Fast and high quality sample-rate conversion library for Python.
+* **[HEIC/HEIF to JPG Converter](https://heif.pages.dev)**: A fast, privacy-focused, in-browser image converter utilizing the native HEVC VideoDecoder API.
