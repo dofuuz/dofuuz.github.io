@@ -17,9 +17,9 @@ This article describes patches applied to [libsoxr](https://github.com/dofuuz/so
 
 ## Motivation
 
-I needed a fast resampler for Python, so I created Python-SoXR (a Python wrapper for **libsoxr**).
+I needed a fast resampler for Python, so I created **Python-SoXR** (a Python wrapper for **libsoxr**).
 
-libsoxr is currently unmaintained. Fortunately, its features are quite complete. So, I decided to fix builds/bugs myself.
+[libsoxr](https://sourceforge.net/projects/soxr/) is currently unmaintained. Fortunately, its features are quite complete. So, I decided to fix builds/bugs myself.
 
 
 ## Changes
@@ -77,14 +77,14 @@ So, I bumped the standard to C99. This also unlocks basic quality-of-life featur
 
 ### Make int16 Output Reproducible by Making Dithering Seed Deterministic
 
-libsoxr uses a random seed for dithering. This produces slightly different outputs every time int16 I/O is used.
+libsoxr uses a random seed for dithering. This produces **slightly different outputs** every time **int16 I/O** is used.
 ```c
     p->seed = (unsigned long long)time(0) ^ (unsigned long long)(size_t)p;
 ```
 
-This variance hurts reproducibility. However, simply fixing the seed to a constant can make the dithering noise audible when mixed down multiple times.
+And yes, it **really changes the experimental results** sometimes. However, simply fixing the seed to a constant can make the dithering noise audible when mixed down multiple times.
 
-To solve this, I replaced the seed with an input-dependent hash. This generates different dithering patterns with the input changes.
+For reproducibility, I replaced the seed with an input-dependent hash. This generates different dithering patterns with the input changes.
 
 The patched libsoxr produces identical output with following conditions:
 
@@ -96,7 +96,7 @@ The patched libsoxr produces identical output with following conditions:
 
 ### Enable Optimization on AArch64 (For Real)
 
-While libsoxr compiled with ARM optimization after the previous fixes, the optimized code was not actually executed.
+While libsoxr compiled with ARM optimization after the previous fixes, the optimized code was **not** actually executed.
 
 libsoxr has runtime ARM NEON capability detection, which depends on libavutil (FFmpeg). Since that dependency is usually turned off, libsoxr fell back to unoptimized code.
 
@@ -107,11 +107,11 @@ Since NEON is mandatory in AArch64, I bypassed the check and force-enabled it:
   return true;
 ```
 
-Now, libsoxr runs literally over 2x faster on AArch64 platforms.
+Now, libsoxr runs literally **over 2x faster** on AArch64 platforms.
 
-<details>
+<details markdown="1">
 
-<summary>Benchmark results...</summary>
+<summary>Benchmark results on Apple M1 Pro...</summary>
 
 Unpatched libosxr:
 ```
@@ -144,7 +144,5 @@ CHUNK_SIZE = 480
 soxr stream: 2.677685 (sec)
 python tests/bench.py  10.57s user 0.80s system 99% cpu 11.384 total
 ```
-
-Ran on Apple M1 Pro.
 
 </details>
