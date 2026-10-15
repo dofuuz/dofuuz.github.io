@@ -10,7 +10,7 @@ KEUM Myungchul[^1]
 [^1]: ALL CAPS means it's family name.
 
 ### Email
-<script>let e="dofu"+"@"+"nate.com";document.write('<a href="mai'+'lto:'+e+'">'+e+'</a>');</script>
+<script>document.write('dofu'+'@'+'nate.com');</script>
 
 ### GitHub
 <https://github.com/dofuuz>
